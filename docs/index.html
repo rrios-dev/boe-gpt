@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BOE GPT - Documentación y Privacidad</title>
+    <style>
+        :root {
+            --primary: #004a99;
+            --primary-light: #e6f0ff;
+            --text: #333;
+            --bg: #f8f9fa;
+            --white: #ffffff;
+        }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: var(--bg);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            max-width: 800px;
+            width: 90%;
+            margin: 40px 0;
+            background: var(--white);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+        header {
+            border-bottom: 2px solid var(--primary-light);
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+        }
+        h1 {
+            color: var(--primary);
+            margin: 0;
+            font-size: 2.2rem;
+        }
+        .desc {
+            font-size: 1.1rem;
+            color: #666;
+            margin-top: 10px;
+        }
+        nav {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+        nav a {
+            text-decoration: none;
+            color: var(--primary);
+            font-weight: 600;
+            padding: 10px 20px;
+            background: var(--primary-light);
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+        nav a:hover {
+            background: var(--primary);
+            color: var(--white);
+        }
+        article {
+            margin-top: 20px;
+        }
+        h2 {
+            border-left: 4px solid var(--primary);
+            padding-left: 15px;
+            color: var(--primary);
+            margin-top: 40px;
+        }
+        .card {
+            background: #fff;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        footer {
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            font-size: 0.9rem;
+            color: #888;
+            text-align: center;
+        }
+        .alert {
+            background-color: #fff8e1;
+            border-left: 4px solid #ffca28;
+            padding: 15px;
+            margin: 20px 0;
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>BOE GPT</h1>
+            <p class="desc">Asistente inteligente para el Boletín Oficial del Estado</p>
+        </header>
+
+        <section id="links">
+            <nav>
+                <a href="PUBLIC_DOCS_ES.md">Documentación</a>
+                <a href="PRIVACY_POLICY_ES.md">Política de Privacidad</a>
+            </nav>
+        </section>
+
+        <article>
+            <div class="alert">
+                <strong>Nota Importante:</strong> Esta es una herramienta independiente y no oficial. Siempre consulte la fuente oficial en <a href="https://www.boe.es">boe.es</a>.
+            </div>
+
+            <div class="card">
+                <h2>Transparencia y Gratuidad</h2>
+                <p>BOE GPT es un proyecto sin ánimo de lucro diseñado para facilitar el acceso a la información pública. El acceso es totalmente gratuito y el código respeta los términos de la API de Datos Abiertos del Gobierno de España.</p>
+            </div>
+
+            <div class="card">
+                <h2>¿Cómo usar esta documentación?</h2>
+                <p>Si eres un usuario del GPT, puedes consultar los enlaces superiores para entender cómo manejamos los datos y qué puedes esperar de esta herramienta. Estos documentos son los mismos que se utilizan para registrar el agente en la tienda de GPTs.</p>
+            </div>
+        </article>
+
+        <footer>
+            &copy; 2024 BOE GPT - Basado en Datos Abiertos del BOE.
+        </footer>
+    </div>
+</body>
+</html>

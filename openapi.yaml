@@ -1,0 +1,656 @@
+openapi: 3.1.0
+info:
+  title: BOE Datos Abiertos API
+  version: 1.0.1
+  description: API de lectura del BOE para legislación consolidada, sumarios y datos auxiliares.
+
+servers:
+  - url: https://www.boe.es
+
+tags:
+  - name: LegislacionConsolidada
+    description: Busqueda y lectura de normas consolidadas.
+  - name: SumariosBOE
+    description: Sumario diario del BOE.
+  - name: SumariosBORME
+    description: Sumario diario del BORME.
+  - name: DatosAuxiliares
+    description: Tablas auxiliares para filtros.
+
+paths:
+  /datosabiertos/api/legislacion-consolidada:
+    get:
+      operationId: buscarLegislacionConsolidada
+      tags: [LegislacionConsolidada]
+      summary: Buscar normas consolidadas
+      description: Busca normas consolidadas por fechas y filtros avanzados. El campo query es un JSON serializado en querystring.
+      parameters:
+        - name: Accept
+          in: header
+          required: false
+          description: Formato de salida.
+          schema:
+            type: string
+            enum: [application/json, application/xml]
+            default: application/json
+        - name: from
+          in: query
+          required: false
+          description: Fecha inicio actualizacion (AAAAMMDD).
+          schema:
+            type: string
+            pattern: '^\d{8}$'
+        - name: to
+          in: query
+          required: false
+          description: Fecha fin actualizacion (AAAAMMDD).
+          schema:
+            type: string
+            pattern: '^\d{8}$'
+        - name: query
+          in: query
+          required: false
+          description: JSON serializado con filtros (query_string, range, sort).
+          schema:
+            type: string
+        - name: offset
+          in: query
+          required: false
+          description: Offset de paginacion.
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+        - name: limit
+          in: query
+          required: false
+          description: Max resultados. Usa -1 para todos.
+          schema:
+            type: integer
+            default: 50
+      responses:
+        '200':
+          description: Resultado de busqueda.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericEnvelopeJson'
+            application/xml:
+              schema:
+                type: string
+        '400':
+          description: Parametros invalidos.
+        '500':
+          description: Error interno.
+
+  /datosabiertos/api/legislacion-consolidada/id/{id}:
+    get:
+      operationId: obtenerNormaConsolidadaCompleta
+      tags: [LegislacionConsolidada]
+      summary: Obtener norma consolidada
+      description: Devuelve la norma consolidada completa por ID. Respuesta XML.
+      parameters:
+        - name: Accept
+          in: header
+          required: false
+          description: Formato XML.
+          schema:
+            type: string
+            enum: [application/xml]
+            default: application/xml
+        - name: id
+          in: path
+          required: true
+          description: ID de norma BOE, por ejemplo BOE-A-1998-8789.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Norma consolidada completa.
+          content:
+            application/xml:
+              schema:
+                type: string
+        '400':
+          description: Parametros invalidos.
+        '404':
+          description: No encontrado.
+        '500':
+          description: Error interno.
+
+  /datosabiertos/api/legislacion-consolidada/id/{id}/metadatos:
+    get:
+      operationId: obtenerMetadatosNorma
+      tags: [LegislacionConsolidada]
+      summary: Obtener metadatos de norma
+      description: Devuelve metadatos de una norma consolidada por ID.
+      parameters:
+        - name: Accept
+          in: header
+          required: false
+          description: JSON o XML.
+          schema:
+            type: string
+            enum: [application/json, application/xml]
+            default: application/json
+        - name: id
+          in: path
+          required: true
+          description: ID de norma BOE.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Metadatos de la norma.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericEnvelopeJson'
+            application/xml:
+              schema:
+                type: string
+        '400':
+          description: Parametros invalidos.
+        '404':
+          description: No encontrado.
+        '500':
+          description: Error interno.
+
+  /datosabiertos/api/legislacion-consolidada/id/{id}/metadata-eli:
+    get:
+      operationId: obtenerMetadatosEliNorma
+      tags: [LegislacionConsolidada]
+      summary: Obtener metadatos ELI
+      description: Devuelve metadatos ELI de una norma. Respuesta XML.
+      parameters:
+        - name: Accept
+          in: header
+          required: false
+          description: Formato XML.
+          schema:
+            type: string
+            enum: [application/xml]
+            default: application/xml
+        - name: id
+          in: path
+          required: true
+          description: ID de norma BOE.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Metadatos ELI.
+          content:
+            application/xml:
+              schema:
+                type: string
+        '400':
+          description: Parametros invalidos.
+        '404':
+          description: No encontrado.
+        '500':
+          description: Error interno.
+
+  /datosabiertos/api/legislacion-consolidada/id/{id}/analisis:
+    get:
+      operationId: obtenerAnalisisNorma
+      tags: [LegislacionConsolidada]
+      summary: Obtener analisis de norma
+      description: Devuelve el nodo de analisis de una norma consolidada.
+      parameters:
+        - name: Accept
+          in: header
+          required: false
+          description: JSON o XML.
+          schema:
+            type: string
+            enum: [application/json, application/xml]
+            default: application/json
+        - name: id
+          in: path
+          required: true
+          description: ID de norma BOE.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Analisis de la norma.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericEnvelopeJson'
+            application/xml:
+              schema:
+                type: string
+        '400':
+          description: Parametros invalidos.
+        '404':
+          description: No encontrado.
+        '500':
+          description: Error interno.
+
+  /datosabiertos/api/legislacion-consolidada/id/{id}/texto:
+    get:
+      operationId: obtenerTextoConsolidadoNorma
+      tags: [LegislacionConsolidada]
+      summary: Obtener texto consolidado
+      description: Devuelve el texto consolidado completo de una norma. Respuesta XML.
+      parameters:
+        - name: Accept
+          in: header
+          required: false
+          description: Formato XML.
+          schema:
+            type: string
+            enum: [application/xml]
+            default: application/xml
+        - name: id
+          in: path
+          required: true
+          description: ID de norma BOE.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Texto consolidado completo.
+          content:
+            application/xml:
+              schema:
+                type: string
+        '400':
+          description: Parametros invalidos.
+        '404':
+          description: No encontrado.
+        '500':
+          description: Error interno.
+
+  /datosabiertos/api/legislacion-consolidada/id/{id}/texto/indice:
+    get:
+      operationId: obtenerIndiceBloquesTextoNorma
+      tags: [LegislacionConsolidada]
+      summary: Obtener indice de bloques
+      description: Devuelve el indice de bloques del texto consolidado.
+      parameters:
+        - name: Accept
+          in: header
+          required: false
+          description: JSON o XML.
+          schema:
+            type: string
+            enum: [application/json, application/xml]
+            default: application/json
+        - name: id
+          in: path
+          required: true
+          description: ID de norma BOE.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Indice de bloques.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericEnvelopeJson'
+            application/xml:
+              schema:
+                type: string
+        '400':
+          description: Parametros invalidos.
+        '404':
+          description: No encontrado.
+        '500':
+          description: Error interno.
+
+  /datosabiertos/api/legislacion-consolidada/id/{id}/texto/bloque/{id_bloque}:
+    get:
+      operationId: obtenerBloqueTextoNorma
+      tags: [LegislacionConsolidada]
+      summary: Obtener bloque de texto
+      description: Devuelve un bloque concreto del texto consolidado. Respuesta XML.
+      parameters:
+        - name: Accept
+          in: header
+          required: false
+          description: Formato XML.
+          schema:
+            type: string
+            enum: [application/xml]
+            default: application/xml
+        - name: id
+          in: path
+          required: true
+          description: ID de norma BOE.
+          schema:
+            type: string
+        - name: id_bloque
+          in: path
+          required: true
+          description: ID del bloque del texto.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Bloque de texto.
+          content:
+            application/xml:
+              schema:
+                type: string
+        '400':
+          description: Parametros invalidos.
+        '404':
+          description: No encontrado.
+        '500':
+          description: Error interno.
+
+  /datosabiertos/api/boe/sumario/{fecha}:
+    get:
+      operationId: obtenerSumarioBoePorFecha
+      tags: [SumariosBOE]
+      summary: Obtener sumario BOE
+      description: Devuelve el sumario del BOE para una fecha en formato AAAAMMDD.
+      parameters:
+        - name: Accept
+          in: header
+          required: false
+          description: JSON o XML.
+          schema:
+            type: string
+            enum: [application/json, application/xml]
+            default: application/json
+        - name: fecha
+          in: path
+          required: true
+          description: Fecha AAAAMMDD.
+          schema:
+            type: string
+            pattern: '^\d{8}$'
+      responses:
+        '200':
+          description: Sumario BOE.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericEnvelopeJson'
+            application/xml:
+              schema:
+                type: string
+        '400':
+          description: Parametros invalidos.
+        '404':
+          description: No encontrado.
+        '500':
+          description: Error interno.
+
+  /datosabiertos/api/borme/sumario/{fecha}:
+    get:
+      operationId: obtenerSumarioBormePorFecha
+      tags: [SumariosBORME]
+      summary: Obtener sumario BORME
+      description: Devuelve el sumario del BORME para una fecha en formato AAAAMMDD.
+      parameters:
+        - name: Accept
+          in: header
+          required: false
+          description: JSON o XML.
+          schema:
+            type: string
+            enum: [application/json, application/xml]
+            default: application/json
+        - name: fecha
+          in: path
+          required: true
+          description: Fecha AAAAMMDD.
+          schema:
+            type: string
+            pattern: '^\d{8}$'
+      responses:
+        '200':
+          description: Sumario BORME.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericEnvelopeJson'
+            application/xml:
+              schema:
+                type: string
+        '400':
+          description: Parametros invalidos.
+        '404':
+          description: No encontrado.
+        '500':
+          description: Error interno.
+
+  /datosabiertos/api/datos-auxiliares/materias:
+    get:
+      operationId: listarMaterias
+      tags: [DatosAuxiliares]
+      summary: Listar materias
+      description: Devuelve la tabla auxiliar de materias.
+      parameters:
+        - name: Accept
+          in: header
+          required: false
+          description: JSON o XML.
+          schema:
+            type: string
+            enum: [application/json, application/xml]
+            default: application/json
+      responses:
+        '200':
+          description: Lista de materias.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericEnvelopeJson'
+            application/xml:
+              schema:
+                type: string
+        '400':
+          description: Parametros invalidos.
+        '500':
+          description: Error interno.
+
+  /datosabiertos/api/datos-auxiliares/ambitos:
+    get:
+      operationId: listarAmbitos
+      tags: [DatosAuxiliares]
+      summary: Listar ambitos
+      description: Devuelve la tabla auxiliar de ambitos.
+      parameters:
+        - name: Accept
+          in: header
+          required: false
+          description: JSON o XML.
+          schema:
+            type: string
+            enum: [application/json, application/xml]
+            default: application/json
+      responses:
+        '200':
+          description: Lista de ambitos.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericEnvelopeJson'
+            application/xml:
+              schema:
+                type: string
+        '400':
+          description: Parametros invalidos.
+        '500':
+          description: Error interno.
+
+  /datosabiertos/api/datos-auxiliares/estados-consolidacion:
+    get:
+      operationId: listarEstadosConsolidacion
+      tags: [DatosAuxiliares]
+      summary: Listar estados de consolidacion
+      description: Devuelve la tabla auxiliar de estados de consolidacion.
+      parameters:
+        - name: Accept
+          in: header
+          required: false
+          description: JSON o XML.
+          schema:
+            type: string
+            enum: [application/json, application/xml]
+            default: application/json
+      responses:
+        '200':
+          description: Lista de estados de consolidacion.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericEnvelopeJson'
+            application/xml:
+              schema:
+                type: string
+        '400':
+          description: Parametros invalidos.
+        '500':
+          description: Error interno.
+
+  /datosabiertos/api/datos-auxiliares/departamentos:
+    get:
+      operationId: listarDepartamentos
+      tags: [DatosAuxiliares]
+      summary: Listar departamentos
+      description: Devuelve la tabla auxiliar de departamentos.
+      parameters:
+        - name: Accept
+          in: header
+          required: false
+          description: JSON o XML.
+          schema:
+            type: string
+            enum: [application/json, application/xml]
+            default: application/json
+      responses:
+        '200':
+          description: Lista de departamentos.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericEnvelopeJson'
+            application/xml:
+              schema:
+                type: string
+        '400':
+          description: Parametros invalidos.
+        '500':
+          description: Error interno.
+
+  /datosabiertos/api/datos-auxiliares/rangos:
+    get:
+      operationId: listarRangos
+      tags: [DatosAuxiliares]
+      summary: Listar rangos
+      description: Devuelve la tabla auxiliar de rangos normativos.
+      parameters:
+        - name: Accept
+          in: header
+          required: false
+          description: JSON o XML.
+          schema:
+            type: string
+            enum: [application/json, application/xml]
+            default: application/json
+      responses:
+        '200':
+          description: Lista de rangos.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericEnvelopeJson'
+            application/xml:
+              schema:
+                type: string
+        '400':
+          description: Parametros invalidos.
+        '500':
+          description: Error interno.
+
+  /datosabiertos/api/datos-auxiliares/relaciones-anteriores:
+    get:
+      operationId: listarRelacionesAnteriores
+      tags: [DatosAuxiliares]
+      summary: Listar relaciones anteriores
+      description: Devuelve la tabla auxiliar de relaciones anteriores.
+      parameters:
+        - name: Accept
+          in: header
+          required: false
+          description: JSON o XML.
+          schema:
+            type: string
+            enum: [application/json, application/xml]
+            default: application/json
+      responses:
+        '200':
+          description: Lista de relaciones anteriores.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericEnvelopeJson'
+            application/xml:
+              schema:
+                type: string
+        '400':
+          description: Parametros invalidos.
+        '500':
+          description: Error interno.
+
+  /datosabiertos/api/datos-auxiliares/relaciones-posteriores:
+    get:
+      operationId: listarRelacionesPosteriores
+      tags: [DatosAuxiliares]
+      summary: Listar relaciones posteriores
+      description: Devuelve la tabla auxiliar de relaciones posteriores.
+      parameters:
+        - name: Accept
+          in: header
+          required: false
+          description: JSON o XML.
+          schema:
+            type: string
+            enum: [application/json, application/xml]
+            default: application/json
+      responses:
+        '200':
+          description: Lista de relaciones posteriores.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericEnvelopeJson'
+            application/xml:
+              schema:
+                type: string
+        '400':
+          description: Parametros invalidos.
+        '500':
+          description: Error interno.
+
+components:
+  schemas:
+    GenericEnvelopeJson:
+      type: object
+      description: Respuesta JSON generica del BOE.
+      additionalProperties: true
+      properties:
+        status:
+          type: object
+          additionalProperties: true
+          properties:
+            code:
+              type: string
+            text:
+              type: string
+        data:
+          oneOf:
+            - type: object
+              additionalProperties: true
+            - type: array
+              items: {}
+            - type: string
+            - type: "null"
