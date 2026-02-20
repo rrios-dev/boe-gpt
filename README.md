@@ -27,6 +27,12 @@ Para publicar la política de privacidad y que sea accesible desde el asistente:
 
 La URL resultante será la que debas configurar en el panel de GPTs de OpenAI.
 
-## 🛠️ Requisitos
-- API de Datos Abiertos del BOE.
-- Especificación OpenAPI (`openapi.yaml`).
+## 🛠️ Requisitos y Arquitectura
+- **API de Datos Abiertos del BOE**.
+- **Especificación OpenAPI** (`openapi.yaml`): Define las acciones que el GPT puede ejecutar de forma autónoma.
+- **Base de Conocimiento** (Knowledge Base): El asistente incluye documentos técnicos y legales cargados internamente (en la carpeta `knowledge/`) para enriquecer sus respuestas sin depender siempre de llamadas externas a la API. Esta base incluye:
+  - Documentación técnica de las APIs del BOE (Consolidada, Sumario BOE, Sumario BORME).
+  - Leyes y normativas fundamentales consolidadas en formato PDF (ej. Constitución Española de 1978, Código Civil, Estatuto de los Trabajadores, etc.) para servir como referencia base rápida y segura.
+
+## 📚 Recursos Externos
+- [API de Datos Abiertos del BOE](https://www.boe.es/datosabiertos/api/api.php) - Documentación oficial y endpoints.
