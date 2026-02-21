@@ -5,6 +5,10 @@ BOE GPT es un asistente inteligente diseñado para facilitar el acceso y la comp
 ## ¿Qué es BOE GPT?
 Este agente utiliza la tecnología de GPT para interactuar con los datos abiertos del BOE, permitiendo a los ciudadanos realizar consultas en lenguaje natural sobre disposiciones, leyes, nombramientos y anuncios publicados oficialmente.
 
+### 🔗 Enlace al Chat
+Puedes acceder al asistente oficial aquí: **[Probar BOE GPT en OpenAI](https://chatgpt.com/g/g-6998dfaca4d48191b89c53a4ba0233d4-boe-espana)**
+
+
 ## Misión y Valores
 - **Transparencia**: El objetivo principal es democratizar el acceso a la información jurídica y administrativa.
 - **Acceso Libre y Gratuito**: Este servicio es y será gratuito, sin ánimo de lucro.

@@ -35,4 +35,6 @@ La URL resultante será la que debas configurar en el panel de GPTs de OpenAI.
   - Leyes y normativas fundamentales consolidadas en formato PDF (ej. Constitución Española de 1978, Código Civil, Estatuto de los Trabajadores, etc.) para servir como referencia base rápida y segura.
 
 ## 📚 Recursos Externos
+- [BOE GPT en OpenAI](https://chatgpt.com/g/g-6998dfaca4d48191b89c53a4ba0233d4-boe-espana) - Enlace oficial del chat.
 - [API de Datos Abiertos del BOE](https://www.boe.es/datosabiertos/api/api.php) - Documentación oficial y endpoints.
+
